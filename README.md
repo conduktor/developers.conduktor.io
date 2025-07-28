@@ -1,5 +1,7 @@
 # Conduktor API docs
 
+For main docs, see [docs repo](https://github.com/conduktor/conduktor-docs).
+
 ## Deployment overview
 
 - [URL](developers.conduktor.io)
