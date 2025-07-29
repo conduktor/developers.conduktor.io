@@ -7,13 +7,13 @@ For main docs, see [docs repo](https://github.com/conduktor/conduktor-docs).
 - [URL](developers.conduktor.io)
 - [Vercel project](https://vercel.com/conduktor/developers-conduktor-io)
 
-## Automated Updates
+## Automated updates
 
 These API docs are automatically updated by the [`update-api-docs` action in the `conduktor-actions` repo.](https://github.com/conduktor/conduktor-actions/tree/main/update-api-docs)
 
-The action will perform the manual steps described below, copying the openapi yaml files from each repo.
+The action will perform the manual steps below, copying the openapi yaml files from each repo.
 
-## Manually Updating API docs
+## Manual updates
 
 API docs live on `host:8888` of the deployed Gateway/Console and are also published to: [Gateway API](https://developers.conduktor.io/?product=gateway) and [Console API](https://developers.conduktor.io/?product=console) docs.
 
