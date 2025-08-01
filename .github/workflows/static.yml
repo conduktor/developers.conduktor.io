@@ -28,8 +28,8 @@ jobs:
   # Single deploy job since we're just deploying
   deploy:
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: ${{ github.event_name == 'pull_request' && 'Preview' || 'github-pages' }}
+      url: ${{ github.event_name == 'pull_request' && steps.deployment.outputs.preview_url || steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
