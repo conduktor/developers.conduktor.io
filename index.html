@@ -7,6 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link data-rh="true" rel="icon" href="./img/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet" />
+
+  <!-- Vercel Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
   <!--Redoc doesn't change outer page styles-->
   <style>
     body { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
@@ -123,10 +130,28 @@
     return 0;
   }
 
+  function trackProductDocumentationView(product, version, gatewayApiVersion) {
+    if (window.va) {
+      const eventData = {
+        product: product,
+        version: version
+      };
+
+      if (product === 'gateway' && gatewayApiVersion) {
+        eventData.gatewayApiVersion = gatewayApiVersion;
+      }
+
+      window.va('track', 'Product Documentation Viewed', eventData);
+    }
+  }
+
   function updateDocs() {
     const product = document.getElementById('productSelect').value;
     const version = document.getElementById('versionSelect').value;
     const gatewayApiVersion = document.getElementById('gatewayApiVersionSelect').value;
+
+    // Track the documentation view
+    trackProductDocumentationView(product, version, gatewayApiVersion);
 
     // Dynamically update title
     document.getElementById('docTitle').textContent = `Conduktor ${product.charAt(0).toUpperCase() + product.slice(1)} ${version} Documentation`;
