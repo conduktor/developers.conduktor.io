@@ -236,6 +236,34 @@
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236c757d' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
     }
 
+    .api-toggle-spacer {
+      display: flex;
+      margin-left: 4px;
+    }
+
+    .api-toggle-invisible {
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      background-color: transparent;
+      color: transparent;
+      font-size: 13px;
+      outline: none;
+      position: relative;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .api-toggle-invisible:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    .api-toggle-invisible:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-left: none;
+    }
+
 
     .company-logo {
       display: flex;
@@ -261,6 +289,16 @@
 
     #redoc-container {
       padding: 20px;
+    }
+
+    /* Make Redoc sidebar group items bold with background */
+    .menu-content > .ps > ul[role=menu] > li[role=menuitem] > label {
+      font-weight: bold !important;
+      background-color: #343a40 !important;
+      color: #fff !important;
+      padding: 6px 8px !important;
+      margin-bottom: 4px !important;
+      border-radius: 4px !important;
     }
 
     @media (max-width: 768px) {
@@ -295,9 +333,9 @@
           <select id="consoleVersionSelect" class="version-select" onchange="selectConsoleVersion(this.value);">
             <!-- Versions will be populated here -->
           </select>
-          <div class="api-toggle-group console-spacer">
-            <button class="api-toggle" disabled style="visibility: hidden;">v1</button>
-            <button class="api-toggle" disabled style="visibility: hidden;">v2</button>
+          <div class="api-toggle-spacer">
+            <button class="api-toggle-invisible">v1</button>
+            <button class="api-toggle-invisible">v2</button>
           </div>
         </div>
         <div class="gateway-controls">
@@ -521,8 +559,23 @@
     const redocDiv = document.createElement('div');
     containerParent.appendChild(redocDiv);
 
-    // Initialize Redoc in the fresh div
-    Redoc.init(specUrl, {}, redocDiv);
+    // Initialize Redoc in the fresh div with theme customization
+    const redocOptions = {
+      theme: {
+        sidebar: {
+          textColor: '#333333',
+          backgroundColor: '#fafafa'
+        },
+        typography: {
+          fontSize: '16px',
+          lineHeight: '1.5em',
+          code: {
+            fontSize: '16px'
+          }
+        }
+      }
+    };
+    Redoc.init(specUrl, redocOptions, redocDiv);
 
     // Navigate to anchor tag if it exists
     if (anchor) {
