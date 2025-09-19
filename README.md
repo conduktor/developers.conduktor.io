@@ -25,3 +25,4 @@ To update the public docs:
    - [Console](https://github.com/conduktor/console-plus/blob/main/modules/consoleplus/app/src/main/resources/public-api-doc.yaml)
 2. Paste the yaml files to the relevant directory within **openapi** and rename as required with the version number of the latest update.
 3. Add the new version number to **openapi/manifest.json**.
+
