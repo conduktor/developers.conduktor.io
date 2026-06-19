@@ -1,12 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title id="docTitle">Conduktor Documentation</title>
-  <!-- needed for adaptive design -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="docTitle">Conduktor API Documentation — Console &amp; Gateway</title>
+  <meta name="description" content="Interactive REST API reference for Conduktor Console and Gateway. Browse and explore all endpoints across all product versions.">
+  <meta name="author" content="Conduktor">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#072024">
+  <link rel="canonical" href="https://developers.conduktor.io/">
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://cdn.redoc.ly">
+  <link rel="dns-prefetch" href="https://cdn.redoc.ly">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preload" href="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js" as="script">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Conduktor API Documentation — Console &amp; Gateway">
+  <meta property="og:description" content="Interactive REST API reference for Conduktor Console and Gateway. Browse and explore all endpoints across all product versions.">
+  <meta property="og:url" content="https://developers.conduktor.io/">
+  <meta property="og:image" content="https://developers.conduktor.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Conduktor API Documentation — Console &amp; Gateway REST API reference">
+  <meta property="og:site_name" content="Conduktor">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@getconduktor">
+  <meta name="twitter:creator" content="@getconduktor">
+  <meta name="twitter:title" content="Conduktor API Documentation — Console &amp; Gateway">
+  <meta name="twitter:description" content="Interactive REST API reference for Conduktor Console and Gateway. Browse and explore all endpoints across all product versions.">
+  <meta name="twitter:image" content="https://developers.conduktor.io/og-image.png">
+  <meta name="twitter:image:alt" content="Conduktor API Documentation — Console &amp; Gateway REST API reference">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Conduktor API Documentation",
+      "url": "https://developers.conduktor.io"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Conduktor API Documentation",
+      "url": "https://developers.conduktor.io",
+      "description": "Interactive REST API reference for Conduktor Console and Gateway. Browse and explore all endpoints across all product versions.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Console API reference, Gateway API reference v1 and v2, Multi-version browsing",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Conduktor",
+        "url": "https://www.conduktor.io"
+      }
+    }
+  ]
+  </script>
+
   <link data-rh="true" rel="icon" href="./img/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F508MVXD3Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-F508MVXD3Z');
+  </script>
 
   <!-- Vercel Analytics -->
   <script>
