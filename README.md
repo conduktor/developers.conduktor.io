@@ -20,8 +20,8 @@ API docs live on `host:8888` of the deployed Gateway/Console and are also publis
 To update the public docs:
 
 1. Copy the latest open API yaml files from the `conduktor-proxy` or `console-plus` repo based on the version:
-   - [Gateway v1](https://github.com/conduktor/conduktor-proxy/blob/main/proxy/src/main/resources/gateway-API.yaml)
    - [Gateway v2](https://github.com/conduktor/conduktor-proxy/blob/main/api-definition/src/main/resources/openapi.yaml)
+   - Gateway v1: removed in Gateway 3.21.0. For earlier versions, take `proxy/src/main/resources/gateway-API.yaml` from that version's tag in `conduktor-proxy`.
    - [Console](https://github.com/conduktor/console-plus/blob/main/modules/consoleplus/app/src/main/resources/public-api-doc.yaml)
 2. Paste the yaml files to the relevant directory within **openapi** and rename as required with the version number of the latest update.
 3. Add the new version number to **openapi/manifest.json**.
