@@ -62,7 +62,7 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "featureList": "Console API reference, Gateway API reference v1 and v2, Multi-version browsing",
+      "featureList": "Console API reference, Gateway API reference, Multi-version browsing",
       "publisher": {
         "@type": "Organization",
         "name": "Conduktor",
@@ -258,6 +258,12 @@
     .api-toggle-group {
       display: flex;
       margin-left: 4px;
+    }
+
+    /* Hidden rather than removed, so the controls next to it do not shift */
+    .api-toggle-group.hidden {
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .api-toggle {
@@ -484,6 +490,46 @@
   let currentGatewayVersion = '';
   let currentGatewayApiVersion = 'v2';
 
+  // Gateway dropped its v1 API in 3.21.0, so v1 is only published for older versions.
+  // Keyed by version, holding the in-flight request so concurrent callers share one probe.
+  const gatewayV1Availability = new Map();
+
+  function hasGatewayV1(version) {
+    if (!version) {
+      return Promise.resolve(false);
+    }
+    if (!gatewayV1Availability.has(version)) {
+      gatewayV1Availability.set(version, fetch(`./openapi/gateway/gateway-${version}-v1.yaml`, { method: 'HEAD' })
+        .then(response => response.ok)
+        .catch(() => false));
+    }
+    return gatewayV1Availability.get(version);
+  }
+
+  function setActiveApiToggle(apiVersion) {
+    document.querySelectorAll('.api-toggle').forEach(button => {
+      button.classList.remove('active');
+    });
+    const activeToggle = document.querySelector(`.api-toggle[data-version="${apiVersion}"]`);
+    if (activeToggle) {
+      activeToggle.classList.add('active');
+    }
+  }
+
+  async function syncGatewayApiToggles() {
+    const version = currentGatewayVersion;
+    const v1Available = await hasGatewayV1(version);
+
+    // Another product or version may have been selected while the request was in flight
+    if (currentProduct !== 'gateway' || currentGatewayVersion !== version) {
+      return;
+    }
+
+    // With only v2 published there is nothing to switch between, so hide the switch
+    document.querySelector('.api-toggle-group').classList.toggle('hidden', !v1Available);
+    document.querySelector('.api-toggle[data-version="v1"]').disabled = !v1Available;
+  }
+
   function selectProduct(product) {
     currentProduct = product;
 
@@ -509,7 +555,8 @@
     } else {
       consoleSelect.disabled = true;
       gatewaySelect.disabled = false;
-      gatewayToggles.forEach(toggle => toggle.disabled = false);
+      document.querySelector('.api-toggle[data-version="v2"]').disabled = false;
+      syncGatewayApiToggles();
     }
 
     updateDocs();
@@ -527,12 +574,7 @@
 
   function selectGatewayApiVersion(apiVersion) {
     currentGatewayApiVersion = apiVersion;
-
-    // Update toggle button states
-    document.querySelectorAll('.api-toggle').forEach(button => {
-      button.classList.remove('active');
-    });
-    document.querySelector(`[data-version="${apiVersion}"]`).classList.add('active');
+    setActiveApiToggle(apiVersion);
 
     selectProduct('gateway');
   }
@@ -580,13 +622,7 @@
     }
 
     // Update v1/v2 toggle button states for Gateway
-    document.querySelectorAll('.api-toggle').forEach(button => {
-      button.classList.remove('active');
-    });
-    const activeToggle = document.querySelector(`[data-version="${currentGatewayApiVersion}"]`);
-    if (activeToggle) {
-      activeToggle.classList.add('active');
-    }
+    setActiveApiToggle(currentGatewayApiVersion);
   }
 
   function semverCompare(a, b) {
@@ -615,7 +651,7 @@
     }
   }
 
-  function updateDocs() {
+  async function updateDocs() {
     const product = currentProduct;
     let version;
     let gatewayApiVersion;
@@ -625,6 +661,18 @@
     } else {
       version = currentGatewayVersion;
       gatewayApiVersion = currentGatewayApiVersion;
+
+      if (gatewayApiVersion === 'v1' && !(await hasGatewayV1(version))) {
+        // Show v2 rather than handing Redoc a spec that was never published
+        gatewayApiVersion = 'v2';
+        currentGatewayApiVersion = 'v2';
+        setActiveApiToggle('v2');
+      }
+
+      // A newer selection took over while the availability request was in flight
+      if (currentProduct !== product || currentGatewayVersion !== version) {
+        return;
+      }
     }
 
     // Track the documentation view
